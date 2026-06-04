@@ -1,0 +1,371 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>현자의 처방전 - 상품 바로 구매 링크</title>
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;500;700;900&display=swap" rel="stylesheet" />
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --bg: #FAF7F2;
+      --card: #FFFFFF;
+      --text-primary: #1A1A1A;
+      --text-secondary: #777777;
+      --text-link: #C0392B;
+      --accent: #E8A020;
+      --border: #EEEBE4;
+      --shadow: 0 2px 12px rgba(0,0,0,0.07);
+    }
+
+    body {
+      background: var(--bg);
+      font-family: 'Noto Sans KR', sans-serif;
+      color: var(--text-primary);
+      min-height: 100vh;
+      padding-bottom: 60px;
+    }
+
+    /* 헤더 */
+    .header {
+      text-align: center;
+      padding: 36px 20px 24px;
+    }
+
+    .channel-name {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      font-size: 15px;
+      font-weight: 700;
+      color: var(--text-primary);
+      margin-bottom: 20px;
+      text-decoration: none;
+    }
+
+    .channel-name .yt-icon {
+      width: 22px;
+      height: 22px;
+      background: #FF0000;
+      border-radius: 5px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+    }
+
+    .channel-name .yt-icon::after {
+      content: '';
+      width: 0;
+      height: 0;
+      border-style: solid;
+      border-width: 5px 0 5px 9px;
+      border-color: transparent transparent transparent #fff;
+      margin-left: 2px;
+    }
+
+    .page-title {
+      font-size: 26px;
+      font-weight: 900;
+      letter-spacing: -0.5px;
+      margin-bottom: 6px;
+    }
+
+    .page-title .icon { margin-right: 4px; }
+
+    .page-subtitle {
+      font-size: 14px;
+      color: var(--text-secondary);
+      margin-bottom: 24px;
+    }
+
+    /* 검색창 */
+    .search-wrap {
+      max-width: 600px;
+      margin: 0 auto 28px;
+      padding: 0 20px;
+    }
+
+    .search-box {
+      display: flex;
+      align-items: center;
+      background: #fff;
+      border: 1.5px solid var(--border);
+      border-radius: 14px;
+      padding: 14px 18px;
+      gap: 10px;
+      box-shadow: var(--shadow);
+      transition: border-color 0.2s;
+    }
+
+    .search-box:focus-within {
+      border-color: var(--accent);
+    }
+
+    .search-box input {
+      flex: 1;
+      border: none;
+      outline: none;
+      font-family: 'Noto Sans KR', sans-serif;
+      font-size: 15px;
+      color: var(--text-primary);
+      background: transparent;
+    }
+
+    .search-box input::placeholder { color: #BBBBBB; }
+
+    .search-box svg {
+      width: 20px;
+      height: 20px;
+      color: #BBBBBB;
+      flex-shrink: 0;
+    }
+
+    /* 제휴 고지 */
+    .notice {
+      max-width: 600px;
+      margin: 0 auto 28px;
+      padding: 0 20px;
+    }
+
+    .notice p {
+      font-size: 13px;
+      color: #888;
+      line-height: 2;
+    }
+
+    .notice p span { margin-right: 6px; }
+
+    /* 상품 리스트 */
+    .product-list {
+      max-width: 600px;
+      margin: 0 auto;
+      padding: 0 20px;
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+    }
+
+    .product-card {
+      background: var(--card);
+      border-radius: 16px;
+      box-shadow: var(--shadow);
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      padding: 14px;
+      text-decoration: none;
+      color: inherit;
+      transition: transform 0.15s, box-shadow 0.15s;
+      border: 1px solid var(--border);
+    }
+
+    .product-card:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 6px 20px rgba(0,0,0,0.10);
+    }
+
+    .product-thumb {
+      width: 72px;
+      height: 72px;
+      border-radius: 10px;
+      object-fit: cover;
+      background: #F0EDE6;
+      flex-shrink: 0;
+    }
+
+    .product-thumb-placeholder {
+      width: 72px;
+      height: 72px;
+      border-radius: 10px;
+      background: #F0EDE6;
+      flex-shrink: 0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 22px;
+    }
+
+    .product-info { flex: 1; min-width: 0; }
+
+    .product-num {
+      font-size: 13px;
+      font-weight: 700;
+      color: var(--text-secondary);
+      margin-bottom: 4px;
+    }
+
+    .product-name {
+      font-size: 15px;
+      font-weight: 700;
+      color: var(--text-primary);
+      margin-bottom: 5px;
+      line-height: 1.4;
+      word-break: keep-all;
+    }
+
+    .product-link-label {
+      display: flex;
+      align-items: center;
+      gap: 5px;
+      font-size: 12px;
+      color: var(--text-link);
+    }
+
+    .product-link-label .dot {
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      background: #C0392B;
+      flex-shrink: 0;
+    }
+
+    .product-link-label span {
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+
+    /* 검색 결과 없음 */
+    .no-result {
+      text-align: center;
+      padding: 48px 20px;
+      color: var(--text-secondary);
+      font-size: 15px;
+      display: none;
+    }
+
+    /* 결과 카운트 */
+    .result-count {
+      max-width: 600px;
+      margin: 0 auto 12px;
+      padding: 0 20px;
+      font-size: 13px;
+      color: var(--text-secondary);
+    }
+  </style>
+</head>
+<body>
+
+  <div class="header">
+    <a class="channel-name" href="#" target="_blank">
+      <span class="yt-icon"></span>
+      현자의 처방전
+      <svg width="13" height="13" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5" style="opacity:0.4"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>
+    </a>
+    <div class="page-title"><span class="icon">🔗</span> 상품 바로 구매 링크</div>
+    <div class="page-subtitle">상품 번호를 아래 검색창에서 검색해주세요!</div>
+  </div>
+
+  <div class="search-wrap">
+    <div class="search-box">
+      <input type="text" id="searchInput" placeholder="상품 번호(숫자) 또는 상품명을 검색해주세요!" oninput="filterProducts()" />
+      <svg fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+        <circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/>
+      </svg>
+    </div>
+  </div>
+
+  <div class="notice">
+    <p>
+      <span>👉</span> 쿠팡 파트너스 활동의 일환으로, 이에 따른 일정액의 수수료를 제공받습니다<br>
+      <span>👉</span> 알리 익스프레스 제휴로, 활동에 따른 일정액의 수수료를 제공받습니다<br>
+      <span>👉</span> 네이버 쇼핑 커넥트 활동의 일환으로, 판매 발생 시 수수료를 제공받습니다.
+    </p>
+  </div>
+
+  <div class="result-count" id="resultCount"></div>
+
+  <div class="product-list" id="productList"></div>
+  <div class="no-result" id="noResult">🔍 검색 결과가 없습니다.</div>
+
+  <script>
+    // ✅ 상품 목록 — 여기에만 추가/수정하면 됩니다!
+    // { num: 번호, name: "상품명", link: "링크", img: "이미지URL" (없으면 ""로) }
+    const products = [
+      {
+        num: 1,
+        name: "미움받을 용기",
+        link: "https://link.coupang.com/a/eiFu6FKpps",
+        img: ""
+      },
+      // 예시 — 아래처럼 계속 추가하세요
+      // {
+      //   num: 2,
+      //   name: "상품명",
+      //   link: "https://링크주소",
+      //   img: "https://이미지주소"
+      // },
+    ];
+
+    function getLinkLabel(link) {
+      if (link.includes("coupang")) return "쿠팡 바로가기";
+      if (link.includes("aliexpress") || link.includes("ali")) return "알리 바로가기";
+      if (link.includes("naver") || link.includes("smartstore")) return "네이버 바로가기";
+      return "바로가기";
+    }
+
+    function renderProducts(list) {
+      const container = document.getElementById("productList");
+      const noResult = document.getElementById("noResult");
+      const countEl = document.getElementById("resultCount");
+
+      container.innerHTML = "";
+
+      if (list.length === 0) {
+        noResult.style.display = "block";
+        countEl.textContent = "";
+        return;
+      }
+
+      noResult.style.display = "none";
+
+      const q = document.getElementById("searchInput").value.trim();
+      countEl.textContent = q ? `검색 결과 ${list.length}개` : `전체 ${list.length}개`;
+
+      list.forEach(p => {
+        const card = document.createElement("a");
+        card.className = "product-card";
+        card.href = p.link;
+        card.target = "_blank";
+        card.rel = "noopener noreferrer";
+
+        const thumb = p.img
+          ? `<img class="product-thumb" src="${p.img}" alt="${p.name}" onerror="this.style.display='none';this.nextElementSibling.style.display='flex'" /><div class="product-thumb-placeholder" style="display:none">📦</div>`
+          : `<div class="product-thumb-placeholder">📦</div>`;
+
+        card.innerHTML = `
+          ${thumb}
+          <div class="product-info">
+            <div class="product-num">${p.num}</div>
+            <div class="product-name">${p.name}</div>
+            <div class="product-link-label">
+              <span class="dot"></span>
+              <span>${getLinkLabel(p.link)}</span>
+            </div>
+          </div>
+          <svg width="16" height="16" fill="none" viewBox="0 0 24 24" stroke="#CCCCCC" stroke-width="2.5"><polyline points="9 18 15 12 9 6"/></svg>
+        `;
+        container.appendChild(card);
+      });
+    }
+
+    function filterProducts() {
+      const q = document.getElementById("searchInput").value.trim().toLowerCase();
+      if (!q) {
+        renderProducts(products);
+        return;
+      }
+      const filtered = products.filter(p =>
+        String(p.num).includes(q) || p.name.toLowerCase().includes(q)
+      );
+      renderProducts(filtered);
+    }
+
+    // 초기 렌더링
+    renderProducts(products);
+  </script>
+
+</body>
+</html>
