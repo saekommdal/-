@@ -270,7 +270,6 @@
   <div class="notice">
     <p>
       <span>👉</span> 쿠팡 파트너스 활동의 일환으로, 이에 따른 일정액의 수수료를 제공받습니다<br>
-      <span>👉</span> 알리 익스프레스 제휴로, 활동에 따른 일정액의 수수료를 제공받습니다<br>
       <span>👉</span> 네이버 쇼핑 커넥트 활동의 일환으로, 판매 발생 시 수수료를 제공받습니다.
     </p>
   </div>
@@ -286,9 +285,9 @@
     const products = [
       {
         num: 1,
-        name: "미움받을 용기",
-        link: "https://link.coupang.com/a/eiFu6FKpps",
-        img: ""
+        name: "미움받을 용기, 기시미 이치로, 고가 후미타케, 인플루엔셜",
+        link: "https://link.coupang.com/a/ei2yiF0uwm",
+        img: "https://thumbnail.coupangcdn.com/thumbnails/remote/292x292ex/image/rs_quotation_api/w6j98yrz/20bd5b753d6f4545a559a94d4835af50.jpg"
       },
       // 예시 — 아래처럼 계속 추가하세요
       // {
@@ -301,7 +300,6 @@
 
     function getLinkLabel(link) {
       if (link.includes("coupang")) return "쿠팡 바로가기";
-      if (link.includes("aliexpress") || link.includes("ali")) return "알리 바로가기";
       if (link.includes("naver") || link.includes("smartstore")) return "네이버 바로가기";
       return "바로가기";
     }
